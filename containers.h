@@ -1,14 +1,9 @@
 /* 
 Author: Oscar Maldonado
-Datastruct: Dynamic array(similar to  vector)
-Description: This data structure will allow you to allocate the a array on the heap and allow you to dynamicly manipulate 
-the array at runtime 
-
+Description: Create data structures
 */
 #ifndef CONTAINERS
 #define CONTAINERS 
-
-
 
 namespace Containers {
 
@@ -470,8 +465,10 @@ template <class T>
 T & Containers::Vector<T>::operator[](unsigned int a){
     return buffer[a];
 }
-};
 
 
+
+
+};//end of namespace
 
 #endif
