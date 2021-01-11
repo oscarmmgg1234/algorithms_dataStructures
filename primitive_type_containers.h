@@ -18,4 +18,8 @@ typedef Containers::LinkedList<int8_t> int8_list;
 typedef Containers::LinkedList<int16_t> int16_list;
 typedef Containers::LinkedList<std::string> string_list;
 
+typedef Containers::Vector<int> int_vector;
+
+typedef Containers::queue<int> int_queue;
+
 #endif
