@@ -64,6 +64,7 @@ class LinkedList{
     void push_front(T&& val) {insert(begin(), std::move(val));}
     void push_back(const T& val) {insert(end(),val);}
     void push_back(T&& val) {insert(end(),std::move(val));}
+    
 
     void pop_front() { erase(begin());}
     void pop_back() { erase(end());}
@@ -76,6 +77,7 @@ class LinkedList{
     
 
 };
+
 //-----------------------------------------------------------------------
 template <typename T>
 void Containers::LinkedList<T>::init(){
@@ -94,7 +96,6 @@ Containers::LinkedList<T>::LinkedList(){
 //-----------------------------------------------------------------------
 template <typename T>
 Containers::LinkedList<T>::~LinkedList(){
-Containers::LinkedList<T>::clear();
 delete head;
 delete tail;
 }
@@ -254,45 +255,49 @@ class Vector
 {
 public:
 
-    typedef T * iterator;
-
+    
+    class iterator;
     Vector(unsigned int size = 0, const T & initial = T()); // default constructor
-    Vector(const Containers::Vector<T> & v);                            // copy constructor
-    Vector(Containers::Vector<T> && v);                                 // move constructor
+    Vector(const Vector<T> & v);                            // copy constructor
+    Vector(Vector<T> && v);                                 // move constructor
     ~Vector();                                              // destructor
-    Containers::Vector<T> & operator=(const Containers::Vector<T> & v);             // copy assignment
-    Containers::Vector<T> & operator=(Containers::Vector<T> && v);                  // move assignment
+    Vector<T> & operator=(const Vector<T> & v);             // copy assignment
+    Vector<T> & operator=(Vector<T>&& v);                  // move assignment
 
     unsigned int capacity() const;
     unsigned int size() const;
     bool empty() const;
 
-    iterator begin();                    // return iterator to first element
-    iterator end();                        // return iterator to past last element
+                        // return iterator to past last element
     T & front();                           // return reference to first element
-    T & back();                            // return reference to last element
+    T & back();       
+    void insert_at(const unsigned index, T& value);
+    void insert_at(const unsigned index, T&& value);
+    void insert_at(iterator itr);
     void push_back(const T & value);
     void push_back(T && value);
+    void push_back(iterator itr);
+    void push_front(const T& value);
+    void push_front(T&& value);
+    void push_front(iterator itr);
     void pop_back();
+    void pop_front();
+    void pop_at(unsigned int index);
+    void pop_at(iterator itr);
 
     void reserve(unsigned int capacity);   // adjust capacity
     void resize(unsigned int size);        // adjust size
 
     T & operator[](unsigned int index);
-    void erase(iterator);                  // erase elem iterator points to (shift left from iterator)
-
+    void erase(unsigned int index);
+    void iterator_erase(iterator a);
+  
 private:
     unsigned int my_size;
     unsigned int my_capacity;
     T * buffer;
 };
-//-------------------------------------------------------------------------------------------------------------
-template <typename T>
-typename Containers::Vector<T>::iterator Containers::Vector<T>::end() { return &buffer[my_size-1];}
-//-------------------------------------------------------------------------------------------------------------
-template <typename T>
-typename Containers::Vector<T>::iterator Containers::Vector<T>::begin() {return &buffer[0]; }
-//-------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 template <typename T>
 T& Containers::Vector<T>::front() {return buffer[0];}
 //-------------------------------------------------------------------------------------------------------------
@@ -306,14 +311,7 @@ void Containers::Vector<T>::push_back( T &&value)
         reserve(2 * my_capacity + 1);
     buffer[my_size++] = std::move(value);
 }
-//-------------------------------------------------------------------------------------------------------------
-template <typename T>
-void Containers::Vector<T>::push_back(const T &value)
-{
-if(my_size == my_capacity)
-    reserve(2 * my_capacity + 1);
-buffer[my_size++] = value;
-}
+
 //-------------------------------------------------------------------------------------------------------------
 template <typename T>
 void Containers::Vector<T>::pop_back()
@@ -361,8 +359,6 @@ Containers::Vector<T>::Vector(const Containers::Vector<T> & v)
     my_size = v.my_size;
     my_capacity = v.my_capacity;
     buffer = new T[my_capacity];
-    assert(buffer != nullptr);
-
     for (int i = 0; i < my_size; i++)
         buffer[i] = v.buffer[i];
 }
@@ -392,11 +388,9 @@ template <class T>
 Containers::Vector<T> & Containers::Vector<T>::operator=(const Containers::Vector<T> & v)
 {
     T * temp = new T[v.my_capacity];
-    assert(temp != nullptr);
 
     for (int i = 0; i < v.my_size; i++)
         temp[i] = v.buffer[i];
-
     delete [] buffer;
     buffer = temp;
     my_size = v.my_size;
@@ -465,6 +459,39 @@ template <class T>
 T & Containers::Vector<T>::operator[](unsigned int a){
     return buffer[a];
 }
+//------------------------------------------------------------------------------------------------------------
+template <class T>
+void Containers::Vector<T>::pop_front()
+{
+    this->erase(this->begin());
+    --my_size;
+}
+
+//**************************************************************************************
+//Priority_Queue
+//**************************************************************************************
+
+template <typename T>
+class p_queue  {
+    public:
+    p_queue(){}//default constructor
+    p_queue(const p_queue & q){temp = q.temp;} //copy constructor
+    p_queue(p_queue && q){temp = std::move(q.temp); q.temp.clear();} //move constructor
+    
+    p_queue & operator=(const p_queue& p){temp = p.temp; return *this;}
+    p_queue & operator=(p_queue&& p){temp = std::move(p);p.temp.clear();}
+
+    void pushBack(T& val){temp.push_back(val);}
+    void pushBack(T&& val){temp.push_back(std::move(val));}
+    void popBack(){temp.pop_back();}
+    void popFront(){temp.pop_front();}
+
+    T& getFirst(){return temp.front();}
+    T& getBack(){return temp.back();}
+
+    private: 
+    LinkedList<T> temp;
+};
 
 
 

@@ -1,13 +1,14 @@
 #include <iostream> 
-#include "containers.h"
+#include "./primitive_type_containers.h"
 
 
 int main(){
-//custom vector
-Containers::Vector<int> a;
-a.push_back(12);
-//Linked List
-Containers::LinkedList<int> b;
-b.push_back(12);
-std::cout << b.back();
+Containers::LinkedList<int> a;
+int_list b;
+Containers::LinkedList<int>::iterator itr;
+int_list_itr itrr = b.begin();
+
+
+
+
 }
