@@ -565,10 +565,10 @@ void Containers::Vector<T>::pop_at(unsigned int index){
 //Queue
 //**************************************************************************************
 
-template <typename T>
+template <typename T, typename container = Vector<T>>
 class queue  {
     public:
-    queue(){temp.reserve(20);}//default constructor
+    queue(){}//default constructor
     queue(const queue & q){temp = q.temp;} //copy constructor
     
     queue & operator=(const queue& p){temp = p.temp; return *this;}
@@ -581,13 +581,15 @@ class queue  {
     T& getFirst(){return temp.front();}
     
     private: 
-    Vector<int> temp;
+    container temp;
 };
 //**************************************************************************************
 //Priority_Queue
 //**************************************************************************************
-template <typename T>
+template <typename T, class container = Vector<T>>
 class p_queue{
+
+public:
 
 };
 };//end of namespace
