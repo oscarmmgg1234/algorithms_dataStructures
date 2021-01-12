@@ -2,8 +2,7 @@
 #include "primitive_type_containers.h"
 
 int main(){
-int_list exampleList;
-int_list::iterator itr = exampleList.begin();
-
-int_vector a;
+int_list a;
+int_queue b;
+int_vector c;
 }

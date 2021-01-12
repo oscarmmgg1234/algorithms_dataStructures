@@ -3,23 +3,86 @@
 #include "containers.h"
 #include <string>
 #include <cstdint>
-
+//linked queue
 typedef Containers::LinkedList<int> int_list;
+typedef Containers::LinkedList<int*> intptr_list;
 typedef Containers::LinkedList<char> char_list;
+typedef Containers::LinkedList<char*> charptr_list;
 typedef Containers::LinkedList<float> float_list;
+typedef Containers::LinkedList<float*> floatptr_list;
 typedef Containers::LinkedList<double> double_list;
+typedef Containers::LinkedList<double*> doubleptr_list;
 typedef Containers::LinkedList<long> long_list;
-typedef Containers::LinkedList<unsigned> unsigned_int;
-typedef Containers::LinkedList<short> short_int;
-typedef Containers::LinkedList<long long int> longLong_int_list;
+typedef Containers::LinkedList<long*> longptr_list;
+typedef Containers::LinkedList<unsigned> unsigned_list;
+typedef Containers::LinkedList<unsigned*> unsignedptr_list;
+typedef Containers::LinkedList<short> short_list;
+typedef Containers::LinkedList<short*> shortptr_list;
+typedef Containers::LinkedList<long long int> longLong_list;
+typedef Containers::LinkedList<long long int *> longLongptr_list;
 typedef Containers::LinkedList<int32_t> int32_list;
+typedef Containers::LinkedList<int32_t*> int32ptr_list;
 typedef Containers::LinkedList<int64_t> int64_list;
+typedef Containers::LinkedList<int64_t*> int64ptr_list; 
 typedef Containers::LinkedList<int8_t> int8_list;
+typedef Containers::LinkedList<int8_t*> int8ptr_list;
 typedef Containers::LinkedList<int16_t> int16_list;
+typedef Containers::LinkedList<int16_t*> int16ptr_list;
 typedef Containers::LinkedList<std::string> string_list;
-
+typedef Containers::LinkedList<std::string*> stringptr_list;
+//vector
 typedef Containers::Vector<int> int_vector;
-
+typedef Containers::Vector<int*> intptr_vector;
+typedef Containers::Vector<char> char_vector;
+typedef Containers::Vector<char*> charptr_vector;
+typedef Containers::Vector<float> float_vector;
+typedef Containers::Vector<float*> floatptr_vector;
+typedef Containers::Vector<double> double_vector;
+typedef Containers::Vector<double*> doubleptr_vector;
+typedef Containers::Vector<long> long_vector;
+typedef Containers::Vector<long*> longptr_vector;
+typedef Containers::Vector<unsigned> unsigned_vector;
+typedef Containers::Vector<unsigned*> unsignedptr_vector;
+typedef Containers::Vector<short> short_vector;
+typedef Containers::Vector<short*> shortptr_vector;
+typedef Containers::Vector<long long int> longLong_vector;
+typedef Containers::Vector<long long int *> longLongptr_vector;
+typedef Containers::Vector<int32_t> int32_vector;
+typedef Containers::Vector<int32_t*> int32ptr_vector;
+typedef Containers::Vector<int64_t> int64_vector;
+typedef Containers::Vector<int64_t*> int64ptr_vector; 
+typedef Containers::Vector<int8_t> int8_vector;
+typedef Containers::Vector<int8_t*> int8ptr_vector;
+typedef Containers::Vector<int16_t> int16_vector;
+typedef Containers::Vector<int16_t*> int16ptr_vector;
+typedef Containers::Vector<std::string> string_vector;
+typedef Containers::Vector<std::string*> stringptr_vector;
+//queue
 typedef Containers::queue<int> int_queue;
+typedef Containers::queue<int*> intptr_queue;
+typedef Containers::queue<char> char_queue;
+typedef Containers::queue<char*> charptr_queue;
+typedef Containers::queue<float> float_queue;
+typedef Containers::queue<float*> floatptr_queue;
+typedef Containers::queue<double> double_queue;
+typedef Containers::queue<double*> doubleptr_queue;
+typedef Containers::queue<long> long_queue;
+typedef Containers::queue<long*> longptr_queue;
+typedef Containers::queue<unsigned> unsigned_int;
+typedef Containers::queue<unsigned*> unsignedptr_queue;
+typedef Containers::queue<short> short_queue;
+typedef Containers::queue<short*> shortptr_queue;
+typedef Containers::queue<long long int> longLong_queue;
+typedef Containers::queue<long long int *> longLongptr_queue;
+typedef Containers::queue<int32_t> int32_queue;
+typedef Containers::queue<int32_t*> int32ptr_queue;
+typedef Containers::queue<int64_t> int64_queue;
+typedef Containers::queue<int64_t*> int64ptr_queue; 
+typedef Containers::queue<int8_t> int8_queue;
+typedef Containers::queue<int8_t*> int8ptr_queue;
+typedef Containers::queue<int16_t> int16_queue;
+typedef Containers::queue<int16_t*> int16ptr_queue;
+typedef Containers::queue<std::string> string_queue;
+typedef Containers::queue<std::string*> stringptr_queue;
 
 #endif

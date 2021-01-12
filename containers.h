@@ -36,11 +36,11 @@ class LinkedList{
 
     LinkedList(); //default constructor
     LinkedList(const LinkedList& c); //copy constructor
-    LinkedList(LinkedList&& m); //move constructor
+    LinkedList(LinkedList&& m) noexcept; //move constructor
     ~LinkedList(); //destructor
 
     LinkedList<T> & operator=(const LinkedList& c); //copy assignment operator
-    LinkedList<T> & operator=(LinkedList&& m); //move assignment operator 
+    LinkedList<T> & operator=(LinkedList&& m) noexcept; //move assignment operator 
 
     iterator begin() {return  head->next;} 
     const_iterator begin() const {return head->next;}
@@ -61,9 +61,9 @@ class LinkedList{
     void clear();
 
     void push_front(const T& val) {insert(begin(),val);}
-    void push_front(T&& val) {insert(begin(), std::move(val));}
+    void push_front(T&& val) noexcept {insert(begin(), std::move(val));}
     void push_back(const T& val) {insert(end(),val);}
-    void push_back(T&& val) {insert(end(),std::move(val));}
+    void push_back(T&& val) noexcept {insert(end(),std::move(val));}
     
 
     void pop_front() { erase(begin());}
@@ -195,7 +195,7 @@ Containers::LinkedList<T>::LinkedList(const Containers::LinkedList<T> & rhs)
 }
 //-----------------------------------------------------------------------
 template <typename T>
-Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && rhs)
+Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && rhs) noexcept
 {
     std::swap(size,rhs.size);
     std::swap(head, rhs.head);
@@ -221,8 +221,11 @@ typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(i
 }
 //-----------------------------------------------------------------------
 template <typename T>
-Containers::LinkedList<T>::LinkedList(LinkedList && rhs) : size(rhs.size), head{rhs.head}, tail{rhs.tail}
+Containers::LinkedList<T>::LinkedList(LinkedList && rhs) noexcept
 {
+    size = rhs.size;
+    head = rhs.head;
+    tail = rhs.tail;
     rhs.size = 0;
     rhs.head = nullptr;
     rhs.tail = nullptr;
@@ -245,7 +248,6 @@ typename Containers::LinkedList<T>::iterator LinkedList<T>::erase(LinkedList<T>:
     return retVal;
 
 }
-
 //**************************************************************************************
 //Custom Vector
 //**************************************************************************************
@@ -259,10 +261,10 @@ public:
     class iterator;
     Vector(unsigned int size = 0, const T & initial = T()); // default constructor
     Vector(const Vector<T> & v);                            // copy constructor
-    Vector(Vector<T> && v);                                 // move constructor
+    Vector(Vector<T> && v) noexcept;                                 // move constructor
     ~Vector();                                              // destructor
     Vector<T> & operator=(const Vector<T> & v);             // copy assignment
-    Vector<T> & operator=(Vector<T>&& v);                  // move assignment
+    Vector<T> & operator=(Vector<T>&& v) noexcept;                  // move assignment
 
     unsigned int capacity() const;
     unsigned int size() const;
@@ -431,7 +433,7 @@ Containers::Vector<T>::Vector(const Containers::Vector<T> & v)
 //------------------------------------------------------------------------------------------------------------
 // move constructor
 template <class T>
-Containers::Vector<T>::Vector(Containers::Vector<T> && v)
+Containers::Vector<T>::Vector(Containers::Vector<T> && v) noexcept
 {
     my_size = v.my_size;
     my_capacity = v.my_capacity;
@@ -473,7 +475,7 @@ Containers::Vector<T> & Containers::Vector<T>::operator=(const Containers::Vecto
 //------------------------------------------------------------------------------------------------------------
 // move assignment
 template <class T>
-Containers::Vector<T> & Containers::Vector<T>::operator=(Containers::Vector<T> && v)
+Containers::Vector<T> & Containers::Vector<T>::operator=(Containers::Vector<T> && v) noexcept
 {
 /* alternate implementation
     swap(my_size, v.my_size);
@@ -570,10 +572,10 @@ class queue  {
     queue(const queue & q){temp = q.temp;} //copy constructor
     
     queue & operator=(const queue& p){temp = p.temp; return *this;}
-    queue & operator=(queue&& p){temp = std::move(p);p.temp.clear();}
+    queue & operator=(queue&& p) noexcept {temp = std::move(p);p.temp.clear();}
 
     void enqueue(T& val){temp.push_back(val);}
-    void enqueue(T&& val){temp.push_back(std::move(val));}
+    void enqueue(T&& val) noexcept {temp.push_back(std::move(val));}
     void dequeue(){temp.pop_front();}
 
     T& getFirst(){return temp.front();}
@@ -581,10 +583,6 @@ class queue  {
     private: 
     Vector<int> temp;
 };
-
-
-
-
 };//end of namespace
 
 #endif
