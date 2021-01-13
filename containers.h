@@ -589,11 +589,16 @@ class queue  {
 //**************************************************************************************
 class String {
     char* buffer;
-    unsigned length;
+    unsigned size;
 
     public: 
     class iterator;
     String(){length = 0;} //TM => O(1)
+    String(const String& copy); 
+    String(Const String&& move);
+
+    int lenght() noexcept {return this->size;}
+
 };
 };//end of namespace
 
