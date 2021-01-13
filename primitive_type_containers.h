@@ -85,4 +85,46 @@ typedef Containers::queue<int16_t*> int16ptr_queue;
 typedef Containers::queue<std::string> string_queue;
 typedef Containers::queue<std::string*> stringptr_queue;
 
+template <typename T>
+Containers::LinkedList<T> List() noexcept {
+    Containers::LinkedList<T> instance;
+    return instance;
+} 
+
+template <typename T>
+typename Containers::LinkedList<T>::iterator List(char a) noexcept {
+    if(a == 'i'){
+    typename Containers::LinkedList<T>::iterator instance;
+    return instance;
+    }
+} 
+template <typename T>
+Containers::Vector<T> Vector() noexcept {
+    Containers::Vector<T> instance;
+    return instance;
+} 
+
+template <typename T>
+typename Containers::Vector<T>::iterator Vector(char a) noexcept {
+    if(a == 'i'){
+    typename Containers::Vector<T>::iterator instance;
+    return instance;
+    }
+} 
+template <typename T>
+Containers::queue<T> Queue() noexcept {
+    Containers::queue<T> instance;
+    return instance;
+} 
+
+template <typename T>
+typename Containers::queue<T>::iterator Queue(char a) noexcept {
+    if(a == 'i'){
+    typename Containers::queue<T>::iterator instance;
+    return instance;
+    }
+} 
+
+
+
 #endif

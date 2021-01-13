@@ -2,11 +2,17 @@
 #include "primitive_type_containers.h"
 #include "containers.h"
 
+struct lamp {};;
 int main(){
 int_list a;
 int_queue b;
 int_vector c;
-Containers::queue<int, Containers::LinkedList<int>> d; //using custom container => linked list
-d.enqueue(12);
+//for custom containers use 
+auto instance = List<lamp>();//returns List 
+auto itr = List<lamp>('i');//return iterator
+auto in = Vector<int>();
+in.push_back(12);
+std::cout << in[0];
+
 
 }
