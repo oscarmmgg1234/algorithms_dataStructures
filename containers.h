@@ -267,9 +267,9 @@ public:
     Vector<T> & operator=(const Vector<T> & v);             // copy assignment
     Vector<T> & operator=(Vector<T>&& v) noexcept;                  // move assignment
 
-    unsigned int capacity() const;
-    unsigned int size() const;
-    bool empty() const;
+    int capacity() const;
+    inline unsigned int size() const;
+    inline bool empty() const;
 
     iterator begin(){return iterator(buffer);}
     iterator end(){return buffer + my_size;}
@@ -597,7 +597,7 @@ class String {
     String(const String& copy); 
     String(Const String&& move);
 
-    int lenght() noexcept {return this->size;}
+    inline int lenght() noexcept {return this->size;}
 
 };
 };//end of namespace
