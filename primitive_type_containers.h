@@ -85,6 +85,8 @@ typedef Containers::queue<int16_t*> int16ptr_queue;
 typedef Containers::queue<std::string> string_queue;
 typedef Containers::queue<std::string*> stringptr_queue;
 
+typedef Containers::String string;
+
 template <typename T>
 Containers::LinkedList<T> List() noexcept {
     Containers::LinkedList<T> instance;

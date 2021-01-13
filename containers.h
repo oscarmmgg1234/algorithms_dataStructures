@@ -18,10 +18,10 @@ class LinkedList{
         Node* next;
         T data;
 
-        Node():next{nullptr},prev{nullptr}{}
-        Node(const T& val,Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val} {}
-        Node(T&& val, Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{std::move(val)}{}
-    };
+        Node():next{nullptr},prev{nullptr}{} //TM => O(1)
+        Node(const T& val,Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val} {} //TM => O(1)
+        Node(T&& val, Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{std::move(val)}{} //TM => O(1)
+    }; 
     
     unsigned int size;
 
@@ -89,52 +89,53 @@ void Containers::LinkedList<T>::init(){
 
 }
 //-----------------------------------------------------------------------
-template <typename T> //default constructor
-Containers::LinkedList<T>::LinkedList(){
+template <typename T> //default constructor TM => O(1)
+Containers::LinkedList<T>::LinkedList(){ 
     init();
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> // TM => O(n)
 Containers::LinkedList<T>::~LinkedList(){
+this->clear();
 delete head;
 delete tail;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(n)
 void Containers::LinkedList<T>::clear(){
     while(!empty())
     Containers::LinkedList<T>::pop_front();
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> 
 class Containers::LinkedList<T>::const_iterator {
 public: 
 const_iterator() : current{nullptr} {}
-const T& operator*() const { return Containers::LinkedList<T>::const_iterator::retrive(); }
+const T& operator*() const { return Containers::LinkedList<T>::const_iterator::retrive(); } //TM => O(1)
 const_iterator & operator++();
 const_iterator operator++(int);
 
 const_iterator & operator--();
 const_iterator operator--(int);
 
-bool operator==(const const_iterator & rhs) const {return current == rhs.current; }
-bool operator!=(const const_iterator & rhs) const {return current != rhs.current; }
+bool operator==(const const_iterator & rhs) const {return current == rhs.current; } //TM => O(1)
+bool operator!=(const const_iterator & rhs) const {return current != rhs.current; } //TM => O(1)
 
 protected: 
 Node* current;
-T& retrive()const{return current->data;}
-const_iterator(Node *p) : current{p} {}
+T& retrive()const{return current->data;} //TM => O(1)
+const_iterator(Node *p) : current{p} {} //TM => O(1)
 friend class Containers::LinkedList<T>;
 };
 //-----------------------------------------------------------------------
 
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::const_iterator & Containers::LinkedList<T>::const_iterator::operator++(){
     current = current->next;
     return *this; //returns reference to this object
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::const_iterator Containers::LinkedList<T>::const_iterator::operator++(int){
     Containers::LinkedList<T>::const_iterator copy = *this;
     ++(*this);
@@ -142,12 +143,12 @@ typename Containers::LinkedList<T>::const_iterator Containers::LinkedList<T>::co
 
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> 
 class Containers::LinkedList<T>::iterator : public Containers::LinkedList<T>::const_iterator{
 public: 
     iterator() {}
-    T& operator*() {return const_iterator::retrive();}
-    const T& operator*() const {return Containers::LinkedList<T>::const_iterator::operator*(); }
+    T& operator*() {return const_iterator::retrive();} //TM => O(1)
+    const T& operator*() const {return Containers::LinkedList<T>::const_iterator::operator*(); } //TM => O(1)
 
     iterator & operator++();
     iterator operator++(int);
@@ -155,38 +156,38 @@ public:
     iterator operator--(int);
 
     protected: 
-    iterator(Node* n): Containers::LinkedList<T>::const_iterator{n} {}
+    iterator(Node* n): Containers::LinkedList<T>::const_iterator{n} {} //TM => O(1)
     friend class Containers::LinkedList<T>;
 
 };
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::iterator::operator--(int){
 Containers::LinkedList<T>::iterator copy = *this;
 --(*this);
 return copy;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::iterator& Containers::LinkedList<T>::iterator::operator--(){
 this->current = this->current->prev;
 return *this;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::iterator& Containers::LinkedList<T>::iterator::operator++(){
 this->current = this->current->next;
 return *this;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::iterator::operator++(int){
 Containers::LinkedList<T>::iterator copy = *this;
 ++(*this);
 return copy;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(n)
 Containers::LinkedList<T>::LinkedList(const Containers::LinkedList<T> & rhs)
 {
     init();
@@ -194,7 +195,7 @@ Containers::LinkedList<T>::LinkedList(const Containers::LinkedList<T> & rhs)
         push_back(val);
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && rhs) noexcept
 {
     std::swap(size,rhs.size);
@@ -203,7 +204,7 @@ Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && r
     return *this;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(iterator itr, const T& val)
 {
     Node* p = itr.current;
@@ -212,7 +213,7 @@ typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(i
     return p->prev = p->prev->next = newNode;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(iterator itr, T&& val){
     Node* p = itr.current;
     Node* newNode = new Node(std::move(val),p->prev,p);
@@ -220,7 +221,7 @@ typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(i
     return p->prev = p->prev->next = newNode;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 Containers::LinkedList<T>::LinkedList(LinkedList && rhs) noexcept
 {
     size = rhs.size;
@@ -231,13 +232,13 @@ Containers::LinkedList<T>::LinkedList(LinkedList && rhs) noexcept
     rhs.tail = nullptr;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(n)
 typename Containers::LinkedList<T>::iterator LinkedList<T>::erase(LinkedList<T>::iterator from, LinkedList<T>::iterator to){
     for(LinkedList<T>::iterator itr = from; itr != to;)
         itr = LinkedList<T>::erase(itr);
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 typename Containers::LinkedList<T>::iterator LinkedList<T>::erase(LinkedList<T>::iterator itr){
     Node* p = itr.current;
     LinkedList<T>::iterator retVal{p->next};
@@ -310,10 +311,10 @@ friend class Containers::Vector<T>;
 T* itr;
 
 iterator(T* ptr){itr = ptr;}
-T& retrive(){return *itr;}
+T& retrive(){return *itr;}//TM => O(1)
 public:
 iterator() : itr{nullptr}{};//default constructor
-iterator(const iterator& copy) : itr(copy.itr){};//copy constructor
+iterator(const iterator& copy) : itr(copy.itr){}; //TM => O(1) //copy constructor
 
 iterator& operator=(const iterator& copy);//assigment operator
 T&  operator*(){return this->retrive();}
@@ -323,37 +324,37 @@ iterator operator++(int);//postincrement
 iterator& operator--();
 iterator operator--(int);
 
-bool operator==(const iterator& temp){return itr == temp.itr; }
-bool operator!=(const iterator& temp){return itr != temp.itr; }
+bool operator==(const iterator& temp){return itr == temp.itr; }//TM => O(1)
+bool operator!=(const iterator& temp){return itr != temp.itr; }//TM => O(1)
 
 };
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::Vector<T>::iterator&  Containers::Vector<T>::iterator::operator=(const iterator& copy){
 itr = copy.itr;
 return *this;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::Vector<T>::iterator& Containers::Vector<T>::iterator::operator++(){
 Containers::Vector<T>::iterator copy = *this;
 itr++;
 return copy;
 }
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::Vector<T>::iterator Containers::Vector<T>::iterator::operator++(int){
 itr++;
 return *this;
 } 
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::Vector<T>::iterator Containers::Vector<T>::iterator::operator--(int){
 itr--;
 return *this;
 } 
 //-----------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 typename Containers::Vector<T>::iterator& Containers::Vector<T>::iterator::operator--(){
 Containers::Vector<T>::iterator copy = *this;
 itr--;
@@ -361,12 +362,12 @@ return copy;
 }
 //-----------------------------------------------------------------------
 template <typename T>
-T& Containers::Vector<T>::front() {return buffer[0];}
+T& Containers::Vector<T>::front() {return buffer[0];}//TM => O(1)
 //-------------------------------------------------------------------------------------------------------------
 template <typename T>
-T& Containers::Vector<T>::back() {return buffer[my_size-1];}
+T& Containers::Vector<T>::back() {return buffer[my_size-1];}//TM => O(1)
 //-------------------------------------------------------------------------------------------------------------
-template <typename T>
+template <typename T> //TM => O(1)
 void Containers::Vector<T>::push_back( T &&value)
 {
     if(my_size == my_capacity)
@@ -376,7 +377,7 @@ void Containers::Vector<T>::push_back( T &&value)
 
 //-------------------------------------------------------------------------------------------------------------
 template <typename T>
-void Containers::Vector<T>::pop_back()
+void Containers::Vector<T>::pop_back() //TM => O(n)
 {
     if(my_size > 0){
     T* copy = new T(my_capacity);
@@ -388,24 +389,24 @@ void Containers::Vector<T>::pop_back()
     }else return;
 }
 //------------------------------------------------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 bool Containers::Vector<T>::empty() const //returns wether empty
 {
     if(buffer == nullptr)
         return false;
 }
 //------------------------------------------------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 unsigned Containers::Vector<T>::size() const
 {
     return my_size;
 }
 //------------------------------------------------------------------------------------------------------------
-template <typename T>
+template <typename T>//TM => O(1)
 unsigned Containers::Vector<T>::capacity() const {return my_capacity;}
 //------------------------------------------------------------------------------------------------------------
 // default constructor
-template <class T>
+template <class T>//TM => O(n)
 Containers::Vector<T>::Vector(unsigned int size, const T & initial)
 {
     my_size = size;
@@ -421,7 +422,7 @@ Containers::Vector<T>::Vector(unsigned int size, const T & initial)
 }
 //------------------------------------------------------------------------------------------------------------
 // copy constructor
-template <class T>
+template <class T>//TM => O(n)
 Containers::Vector<T>::Vector(const Containers::Vector<T> & v)
 {
     my_size = v.my_size;
@@ -432,7 +433,7 @@ Containers::Vector<T>::Vector(const Containers::Vector<T> & v)
 }
 //------------------------------------------------------------------------------------------------------------
 // move constructor
-template <class T>
+template <class T>//TM => O(1)
 Containers::Vector<T>::Vector(Containers::Vector<T> && v) noexcept
 {
     my_size = v.my_size;
@@ -443,7 +444,7 @@ Containers::Vector<T>::Vector(Containers::Vector<T> && v) noexcept
     v.buffer = nullptr;
 }
 //------------------------------------------------------------------------------------------------------------
-template <class T>
+template <class T>//TM => O(1)
 Containers::Vector<T>::~Vector()
 {
     my_size = 0;
@@ -452,7 +453,7 @@ Containers::Vector<T>::~Vector()
 }
 //------------------------------------------------------------------------------------------------------------
 // copy assignment
-template <class T>
+template <class T>//TM => O(n)
 Containers::Vector<T> & Containers::Vector<T>::operator=(const Containers::Vector<T> & v)
 {
     T * temp = new T[v.my_capacity];
@@ -474,7 +475,7 @@ Containers::Vector<T> & Containers::Vector<T>::operator=(const Containers::Vecto
 }
 //------------------------------------------------------------------------------------------------------------
 // move assignment
-template <class T>
+template <class T>//TM => O(n)
 Containers::Vector<T> & Containers::Vector<T>::operator=(Containers::Vector<T> && v) noexcept
 {
 /* alternate implementation
@@ -493,7 +494,7 @@ Containers::Vector<T> & Containers::Vector<T>::operator=(Containers::Vector<T> &
     return *this;
 }
 //------------------------------------------------------------------------------------------------------------
-template <class T>
+template <class T>//TM => O(n)
 void Containers::Vector<T>::reserve(unsigned int capacity)//reserves the capacity of the container
 {
     if (capacity <= my_capacity)
@@ -511,7 +512,7 @@ void Containers::Vector<T>::reserve(unsigned int capacity)//reserves the capacit
     buffer = new_buffer;
 }
 //------------------------------------------------------------------------------------------------------------
-template <class T>
+template <class T>//TM => O(n)
 void Containers::Vector<T>::resize(unsigned int size)//resize the container
 {
     if (size > my_capacity)
@@ -523,13 +524,13 @@ void Containers::Vector<T>::resize(unsigned int size)//resize the container
     else my_size = size;
 }
 //------------------------------------------------------------------------------------------------------------
-template <class T>
+template <class T>//TM => O(1)
 T & Containers::Vector<T>::operator[](unsigned int a){
     if(a < my_size)
     return buffer[a];
 }
 //------------------------------------------------------------------------------------------------------------
-template <class T>
+template <class T>//TM => O(n)
 void Containers::Vector<T>::pop_front()
 {
     if(my_size > 0){
@@ -545,7 +546,7 @@ void Containers::Vector<T>::pop_front()
     } else return;
 }
 //------------------------------------------------------------------------------------------------------------
-template <class T>
+template <class T>//TM => O(n)
 void Containers::Vector<T>::pop_at(unsigned int index){
     if(my_size > 0){
         T* copy = new T(my_capacity);
@@ -569,28 +570,30 @@ template <typename T, typename container = Vector<T>>
 class queue  {
     public:
     queue(){}//default constructor
-    queue(const queue & q){temp = q.temp;} //copy constructor
+    queue(const queue & q){temp = q.temp;} //TM => O(1)//copy constructor
     
-    queue & operator=(const queue& p){temp = p.temp; return *this;}
-    queue & operator=(queue&& p) noexcept {temp = std::move(p);p.temp.clear();}
+    queue & operator=(const queue& p){temp = p.temp; return *this;}//TM => O(1)
+    queue & operator=(queue&& p) noexcept {temp = std::move(p);p.temp.clear();}//TM => O(1)
 
-    void enqueue(T& val){temp.push_back(val);}
-    void enqueue(T&& val) noexcept {temp.push_back(std::move(val));}
-    void dequeue(){temp.pop_front();}
+    void enqueue(T& val){temp.push_back(val);}//TM => O(n)
+    void enqueue(T&& val) noexcept {temp.push_back(std::move(val));}//TM => O(n)
+    void dequeue(){temp.pop_front();}//TM => O(n)
 
-    T& getFirst(){return temp.front();}
+    T& getFirst(){return temp.front();}//TM => O(1)
     
     private: 
     container temp;
 };
 //**************************************************************************************
-//Priority_Queue
+//String
 //**************************************************************************************
-template <typename T, class container = Vector<T>>
-class p_queue{
+class String {
+    char* buffer;
+    unsigned length;
 
-public:
-
+    public: 
+    class iterator;
+    String(){length = 0;} //TM => O(1)
 };
 };//end of namespace
 
