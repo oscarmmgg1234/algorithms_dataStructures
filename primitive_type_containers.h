@@ -28,8 +28,10 @@ typedef Containers::LinkedList<int8_t> int8_list;
 typedef Containers::LinkedList<int8_t*> int8ptr_list;
 typedef Containers::LinkedList<int16_t> int16_list;
 typedef Containers::LinkedList<int16_t*> int16ptr_list;
-typedef Containers::LinkedList<std::string> string_list;
-typedef Containers::LinkedList<std::string*> stringptr_list;
+typedef Containers::LinkedList<std::string> stdstring_list;
+typedef Containers::LinkedList<std::string*> stdstringptr_list;
+typedef Containers::LinkedList<Containers::String> string_list;
+typedef Containers::LinkedList<Containers::String*> stringptr_list;
 //vector
 typedef Containers::Vector<int> int_vector;
 typedef Containers::Vector<int*> intptr_vector;
@@ -55,8 +57,10 @@ typedef Containers::Vector<int8_t> int8_vector;
 typedef Containers::Vector<int8_t*> int8ptr_vector;
 typedef Containers::Vector<int16_t> int16_vector;
 typedef Containers::Vector<int16_t*> int16ptr_vector;
-typedef Containers::Vector<std::string> string_vector;
-typedef Containers::Vector<std::string*> stringptr_vector;
+typedef Containers::Vector<std::string> stdstring_vector;
+typedef Containers::Vector<std::string*> stdstringptr_vector;
+typedef Containers::LinkedList<Containers::String> string_vector;
+typedef Containers::LinkedList<Containers::String*> stringptr_vector;
 //queue
 typedef Containers::queue<int> int_queue;
 typedef Containers::queue<int*> intptr_queue;
@@ -82,8 +86,10 @@ typedef Containers::queue<int8_t> int8_queue;
 typedef Containers::queue<int8_t*> int8ptr_queue;
 typedef Containers::queue<int16_t> int16_queue;
 typedef Containers::queue<int16_t*> int16ptr_queue;
-typedef Containers::queue<std::string> string_queue;
-typedef Containers::queue<std::string*> stringptr_queue;
+typedef Containers::queue<std::string> stdstring_queue;
+typedef Containers::queue<std::string*> stdstringptr_queue;
+typedef Containers::LinkedList<Containers::String> string_queue;
+typedef Containers::LinkedList<Containers::String*> stringptr_queue;
 
 typedef Containers::String string;
 

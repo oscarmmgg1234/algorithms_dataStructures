@@ -20,7 +20,7 @@ class LinkedList{
 
         Node():next{nullptr},prev{nullptr}{} //TM => O(1)
         Node(const T& val,Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val} {} //TM => O(1)
-        Node(T&& val, Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{std::move(val)}{} //TM => O(1)
+        Node(T&& val, Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val}{} //TM => O(1)
     }; 
     
     unsigned int size;
@@ -47,7 +47,7 @@ class LinkedList{
     iterator end() {return tail;}
     const_iterator end() const {return tail;}
 
-    T & operator[](unsigned int index);
+    inline T & operator[](unsigned int index);
     T& front(){ return *begin();}
     const T& front() const {return *begin();}
     T& back(){return *--end();}
@@ -61,9 +61,9 @@ class LinkedList{
     void clear();
 
     void push_front(const T& val) {insert(begin(),val);}
-    void push_front(T&& val) noexcept {insert(begin(), std::move(val));}
+    void push_front(T&& val) noexcept {insert(begin(), val);}
     void push_back(const T& val) {insert(end(),val);}
-    void push_back(T&& val) noexcept {insert(end(),std::move(val));}
+    void push_back(T&& val) noexcept {insert(end(),val);}
     
 
     void pop_front() { erase(begin());}
@@ -198,9 +198,9 @@ Containers::LinkedList<T>::LinkedList(const Containers::LinkedList<T> & rhs)
 template <typename T> //TM => O(1)
 Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && rhs) noexcept
 {
-    std::swap(size,rhs.size);
-    std::swap(head, rhs.head);
-    std::swap(tail, rhs.tail);
+    size,rhs.size;
+    head, rhs.head;
+    tail, rhs.tail;
     return *this;
 }
 //-----------------------------------------------------------------------
@@ -216,7 +216,7 @@ typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(i
 template <typename T>//TM => O(1)
 typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(iterator itr, T&& val){
     Node* p = itr.current;
-    Node* newNode = new Node(std::move(val),p->prev,p);
+    Node* newNode = new Node(val,p->prev,p);
     size++;
     return p->prev = p->prev->next = newNode;
 }
@@ -317,7 +317,7 @@ iterator() : itr{nullptr}{};//default constructor
 iterator(const iterator& copy) : itr(copy.itr){}; //TM => O(1) //copy constructor
 
 iterator& operator=(const iterator& copy);//assigment operator
-T&  operator*(){return this->retrive();}
+inline T&  operator*(){return this->retrive();}
 
 iterator& operator++();//preincrement
 iterator operator++(int);//postincrement
@@ -372,7 +372,7 @@ void Containers::Vector<T>::push_back( T &&value)
 {
     if(my_size == my_capacity)
         reserve(2 * my_capacity + 1);
-    buffer[my_size++] = std::move(value);
+    buffer[my_size++] = value;
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -573,13 +573,13 @@ class queue  {
     queue(const queue & q){temp = q.temp;} //TM => O(1)//copy constructor
     
     queue & operator=(const queue& p){temp = p.temp; return *this;}//TM => O(1)
-    queue & operator=(queue&& p) noexcept {temp = std::move(p);p.temp.clear();}//TM => O(1)
+    queue & operator=(queue&& p) noexcept {temp = p;p.temp.clear();}//TM => O(1)
 
     void enqueue(T& val){temp.push_back(val);}//TM => O(n)
-    void enqueue(T&& val) noexcept {temp.push_back(std::move(val));}//TM => O(n)
+    void enqueue(T&& val) noexcept {temp.push_back(val);}//TM => O(n)
     void dequeue(){temp.pop_front();}//TM => O(n)
 
-    T& getFirst(){return temp.front();}//TM => O(1)
+    inline T& getFirst(){return temp.front();}//TM => O(1)
     
     private: 
     container temp;
@@ -589,11 +589,16 @@ class queue  {
 //**************************************************************************************
 class String {
     char* buffer;
-    unsigned length;
+    unsigned size;
 
     public: 
     class iterator;
-    String(){length = 0;} //TM => O(1)
+    String(){size = 0;} //TM => O(1)
+    inline int lenght() noexcept {return this->size;}
+    String(const String& copy);
+    String(String&& move);
+
+    
 };
 };//end of namespace
 
