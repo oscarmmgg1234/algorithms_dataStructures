@@ -590,14 +590,35 @@ class queue  {
 class String {
     char* buffer;
     unsigned size;
+    
 
     public: 
+    class const_iterator;
     class iterator;
     String(){size = 0;} //TM => O(1)
-    inline int lenght() noexcept {return this->size;}
+    constexpr int lenght() noexcept {return this->size;}
     String(const String& copy);
     String(String&& move);
 
+    String& operator=(const String&);
+    String& operator=(String &&) noexcept;
+
+    constexpr String& operator[](unsigned) noexcept;
+
+    bool operator!=(const String&);
+    bool operator==(const String&);
+
+    const_iterator& front(){return buffer;}
+    iterator& front(){return buffer;}
+    const_iterator& back(){return buffer + size;}
+    iterator& back(){return buffer + size;}
+
+     
+
+     
+
+
+    friend void swap;
     
 };
 };//end of namespace
