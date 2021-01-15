@@ -594,23 +594,29 @@ class queue  {
 //**************************************************************************************
 //String
 //**************************************************************************************
+    
 class String {
     char* buffer;
     unsigned size;
+    size_t str_lenght(){return (*buffer) ? return_lenght(++buffer) + 1 : 0;} 
+    
     public: 
     String(){size = 0;buffer = nullptr;} //TM => O(1)
+    String(char*&);
     String(const String& copy);
     String(String&& move);
 
-    String& operator=(const String&);
+    String& operator=(const String&); //String& return type allows chaining
     String& operator=(String &&) noexcept;
-
+        
     inline int lenght() const noexcept {return this->size;} //TM => O(1)
 
     char& operator[](unsigned) const noexcept;
     String& operator+(String&);
     String& operator+(String&&);
-
+    
+    
+    
     bool operator!=(const String&) const;
     bool operator==(const String&) const;
     
@@ -631,6 +637,10 @@ class String {
     char& back() const noexcept {return buffer[size-1];}//TM => O(1)
      
 };
+//------------------------------------------------------------------------------------------------------------    
+Containers::String(char *&buffer) : this->buffer{buffer} {this->size = this->str_lenght();} //value constructor
+//------------------------------------------------------------------------------------------------------------
+
 //**************************************************************************************
 //Max-Heap
 //**************************************************************************************
