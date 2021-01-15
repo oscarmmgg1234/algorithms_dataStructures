@@ -614,7 +614,6 @@ class String {
     bool operator!=(const String&) const;
     bool operator==(const String&) const;
     
-    String& substr(iterator from, iterator to);
     String& substr(unsigned from, unsigned to);
     String& reverse_string();
     
@@ -624,22 +623,13 @@ class String {
     void pop_back();
     void pop_front();
     
-    void insert(iterator&,char &);
     void insert_at(unsigned int,char&);
     
-    void erase(iterator&);
     void erase_at(unsigned int, char&);
     
     char& front() const noexcept {return buffer[0];}//TM => O(1)
     char& back() const noexcept {return buffer[size-1];}//TM => O(1)
-   
-    
-
-    //const_iterator begin(){return const_iterator(buffer);}
-    //iterator begin(){return iterator(buffer);}
-    //const_iterator end(){return buffer + size;}
-    //iterator end(){return buffer + size;}
-  
+     
 };
 //**************************************************************************************
 //Max-Heap
