@@ -591,13 +591,13 @@ class queue  {
 class String {
     char* buffer;
     unsigned size;
-    
 
     public: 
-    class const_iterator;
     class iterator;
+    class const_iterator;
     String(){size = 0;} //TM => O(1)
     constexpr int lenght() noexcept {return this->size;}
+
     String(const String& copy);
     String(String&& move);
 
@@ -609,17 +609,17 @@ class String {
     bool operator!=(const String&);
     bool operator==(const String&);
 
-    const_iterator& front(){return buffer;}
-    iterator& front(){return buffer;}
-    const_iterator& back(){return buffer + size;}
-    iterator& back(){return buffer + size;}
+    const_iterator begin(){return const_iterator(buffer);}
+    iterator begin(){return iterator(buffer);}
+    const_iterator end(){return buffer + size;}
+    iterator end(){return buffer + size;}
 
      
 
      
 
 
-    friend void swap;
+
     
 };
 };//end of namespace
