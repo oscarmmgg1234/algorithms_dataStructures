@@ -90,7 +90,7 @@ typedef Containers::queue<std::string> stdstring_queue;
 typedef Containers::queue<std::string*> stdstringptr_queue;
 typedef Containers::LinkedList<Containers::String> string_queue;
 typedef Containers::LinkedList<Containers::String*> stringptr_queue;
-
+//string
 typedef Containers::String string;
 
 template <typename T>

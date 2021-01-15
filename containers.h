@@ -1,6 +1,7 @@
 /* 
 Author: Oscar Maldonado
-Description: Create data structures
+Description: Create data structures using best
+pratices and best time complexity and eventually create a product ready dylib
 */
 #ifndef CONTAINERS
 #define CONTAINERS 
