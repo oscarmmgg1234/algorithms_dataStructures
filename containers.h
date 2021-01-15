@@ -48,17 +48,17 @@ class LinkedList{
     iterator end() {return tail;}
     const_iterator end() const {return tail;}
 
-    inline T & operator[](unsigned int index);
+    inline T & operator[](unsigned int index) const;
     T& front(){ return *begin();}
     const T& front() const {return *begin();}
     T& back(){return *--end();}
     const T& back() const {return *--back();}
 
-    int getSize() const {return size;}
+    inline int getSize() const {return size;}
 
     //size_t getByteSize(const int index) const {return std::sizeof()}
 
-    bool empty() const {return size == 0;}
+    inline bool empty() const {return size == 0;}
     void clear();
 
     void push_front(const T& val) {insert(begin(),val);}
@@ -263,20 +263,20 @@ public:
     class iterator;
     Vector(unsigned int size = 0, const T & initial = T()); // default constructor
     Vector(const Vector<T> & v);                            // copy constructor
-    Vector(Vector<T> && v) noexcept;                                 // move constructor
+    Vector(Vector<T> && v);                                // move constructor
     ~Vector();                                              // destructor
     Vector<T> & operator=(const Vector<T> & v);             // copy assignment
     Vector<T> & operator=(Vector<T>&& v) noexcept;                  // move assignment
 
     unsigned int capacity() const;
-    unsigned int size() const;
-    bool empty() const;
+    inline unsigned int size() const;
+    inline bool empty() const;
 
     iterator begin(){return iterator(buffer);}
     iterator end(){return buffer + my_size;}
     
-    T & front();                           // return reference to first element
-    T & back();       
+    inline T & front() const;                           // return reference to first element
+    inline T & back() const;       
     void insert_at(const unsigned index,const T& value);
     void insert_at(const unsigned index, T&& value);
     void insert_at(iterator& itr);
@@ -312,13 +312,13 @@ friend class Containers::Vector<T>;
 T* itr;
 
 iterator(T* ptr){itr = ptr;}
-T& retrive(){return *itr;}//TM => O(1)
+inline T& retrive() const {return *itr;}//TM => O(1)
 public:
 iterator() : itr{nullptr}{};//default constructor
 iterator(const iterator& copy) : itr(copy.itr){}; //TM => O(1) //copy constructor
 
 iterator& operator=(const iterator& copy);//assigment operator
-inline T&  operator*(){return this->retrive();}
+inline T&  operator*() const {return this->retrive();}
 
 iterator& operator++();//preincrement
 iterator operator++(int);//postincrement
@@ -363,10 +363,10 @@ return copy;
 }
 //-----------------------------------------------------------------------
 template <typename T>
-T& Containers::Vector<T>::front() {return buffer[0];}//TM => O(1)
+T& Containers::Vector<T>::front() const {return buffer[0];}//TM => O(1)
 //-------------------------------------------------------------------------------------------------------------
 template <typename T>
-T& Containers::Vector<T>::back() {return buffer[my_size-1];}//TM => O(1)
+T& Containers::Vector<T>::back() const {return buffer[my_size-1];}//TM => O(1)
 //-------------------------------------------------------------------------------------------------------------
 template <typename T> //TM => O(1)
 void Containers::Vector<T>::push_back( T &&value)
@@ -435,7 +435,7 @@ Containers::Vector<T>::Vector(const Containers::Vector<T> & v)
 //------------------------------------------------------------------------------------------------------------
 // move constructor
 template <class T>//TM => O(1)
-Containers::Vector<T>::Vector(Containers::Vector<T> && v) noexcept
+Containers::Vector<T>::Vector(Containers::Vector<T> && v)
 {
     my_size = v.my_size;
     my_capacity = v.my_capacity;
@@ -526,7 +526,7 @@ void Containers::Vector<T>::resize(unsigned int size)//resize the container
 }
 //------------------------------------------------------------------------------------------------------------
 template <class T>//TM => O(1)
-T & Containers::Vector<T>::operator[](unsigned int a){
+T & Containers::Vector<T>::operator[](unsigned int a) {
     if(a < my_size)
     return buffer[a];
 }
@@ -580,7 +580,7 @@ class queue  {
     void enqueue(T&& val) noexcept {temp.push_back(val);}//TM => O(n)
     void dequeue(){temp.pop_front();}//TM => O(n)
 
-    inline T& getFirst(){return temp.front();}//TM => O(1)
+    inline T& getFirst() const noexcept {return temp.front();}//TM => O(1)
     
     private: 
     container temp;
@@ -596,23 +596,23 @@ class String {
     class iterator;
     class const_iterator;
     String(){size = 0;} //TM => O(1)
-    constexpr int lenght() noexcept {return this->size;}
-
     String(const String& copy);
     String(String&& move);
 
     String& operator=(const String&);
     String& operator=(String &&) noexcept;
 
-    constexpr String& operator[](unsigned) noexcept;
+    inline int lenght() const noexcept {return this->size;}
+
+    String& operator[](unsigned) const noexcept;
 
     bool operator!=(const String&);
     bool operator==(const String&);
 
-    const_iterator begin(){return const_iterator(buffer);}
-    iterator begin(){return iterator(buffer);}
-    const_iterator end(){return buffer + size;}
-    iterator end(){return buffer + size;}
+    //const_iterator begin(){return const_iterator(buffer);}
+    //iterator begin(){return iterator(buffer);}
+    //const_iterator end(){return buffer + size;}
+    //iterator end(){return buffer + size;}
 
      
 
