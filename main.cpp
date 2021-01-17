@@ -13,10 +13,7 @@ int_list example = a; //uses copy constructor
 auto itr = List<string>('i');//return iterator
 auto in = Vector<int>();
 in.push_back(12);
-string qw;
-std::cout << in[0];
-
-
+string we = "oscar";
 
 
 }

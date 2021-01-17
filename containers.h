@@ -5,7 +5,7 @@ pratices and best time complexity and eventually create a product ready dylib
 */
 #ifndef CONTAINERS
 #define CONTAINERS 
-
+#include <ostream>
 namespace Containers {
 
 //**************************************************************************************
@@ -29,7 +29,6 @@ class LinkedList{
         Node(const T& val,Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val} {} //TM => O(1)
         Node(T&& val, Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val}{} //TM => O(1)
     }; 
-    
     unsigned int size;
 
     Node *head;
@@ -387,7 +386,7 @@ template <typename T>
 void Containers::Vector<T>::pop_back() //TM => O(n)
 {
     if(my_size > 0){
-    T* copy = new T(my_capacity);
+    T* copy = new T[my_capacity];
     for(int i = 0;i < my_size-1;i++)
     copy[i] = buffer[i];
     delete [] buffer;
@@ -593,54 +592,179 @@ class queue  {
 };
 //**************************************************************************************
 //String
-//**************************************************************************************
-    
+//******************************e********************************************************
 class String {
+    int size;
     char* buffer;
-    unsigned size;
-    size_t str_lenght(){return (*buffer) ? return_lenght(++buffer) + 1 : 0;} 
+public:
     
-    public: 
-    String(){size = 0;buffer = nullptr;} //TM => O(1)
-    String(char*&);
-    String(const String& copy);
-    String(String&& move);
-
-    String& operator=(const String&); //String& return type allows chaining
-    String& operator=(String &&) noexcept;
-        
-    inline int lenght() const noexcept {return this->size;} //TM => O(1)
-
-    char& operator[](unsigned) const noexcept;
-    String& operator+(String&);
-    String& operator+(String&&);
+    String();
+    String(const String& op);//copy constructor
+    String(String && op);//move constructors
+    String(const char* op);
+    String(char op);
+    ~String();//destructor
+    
+    char*& returnC();
+    int length();//return length of buffer
+    char& operator[](const int a);//returns char at specified index in the array
+    String& operator=(const String& op);//String a = "hello"
+    String& operator+=(const String & op);
+    String& operator=(String && op) ;
     
     
+    friend bool operator==(const String& a,const String& b);
+    friend bool operator<=(const String& a,const String& b);
+    friend bool operator>= (const String& a,const String& b);
+    friend bool operator>(const String& a,const String& b);
+    friend bool operator<(const String& a,const String& b);
     
-    bool operator!=(const String&) const;
-    bool operator==(const String&) const;
+    friend std::ostream& operator<<(std::ostream& a, const String& b);
     
-    String& substr(unsigned from, unsigned to);
-    String& reverse_string();
     
-    void push_front();
-    void push_back();
-    
-    void pop_back();
-    void pop_front();
-    
-    void insert_at(unsigned int,char&);
-    
-    void erase_at(unsigned int, char&);
-    
-    char& front() const noexcept {return buffer[0];}//TM => O(1)
-    char& back() const noexcept {return buffer[size-1];}//TM => O(1)
-     
 };
-//------------------------------------------------------------------------------------------------------------    
-Containers::String(char *&buffer) : this->buffer{buffer} {this->size = this->str_lenght();} //value constructor
 //------------------------------------------------------------------------------------------------------------
-
+Containers::String::String()
+{
+    size = 0;
+    buffer = nullptr;
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String::String(const String& op)// copy constructor
+{
+    size = op.size;
+    buffer = op.buffer;
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String::String(String&& op): size{op.size},buffer{op.buffer}
+{
+    
+    op.size = 0;
+    op.buffer = nullptr;
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String::String(const char* op)//move construnctor
+{
+    size = 0;
+    
+    for(const char* a = op;*a;a++)
+        size++;
+    
+    buffer = new char[size];
+    for(int i = 0;i < size; i++)
+        buffer[i] = op[i];
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String::String(char op)
+{
+    size = 1;
+    buffer = new char[size];
+    buffer[0] = op;
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String::~String()
+{
+    delete [] buffer;
+}
+//------------------------------------------------------------------------------------------------------------
+int Containers::String::length()
+{
+    return size;
+}
+//------------------------------------------------------------------------------------------------------------
+char& Containers::String::operator[](const int a)
+{
+    return buffer[a];
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String& Containers::String::operator=(const String& op) // String a = b;
+{
+    size = op.size;
+    buffer = op.buffer;
+    return *this;
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String& Containers::String::operator+=(const String &op)// String a += b;
+{
+    char *temp = buffer;
+    buffer = nullptr;
+    int x = 0;
+    buffer = new char[size + op.size];
+    for(int i = 0;i < size;i++)
+    {
+        if(i <= size)
+            buffer[i] = temp[i];
+        
+        if(i >size)
+            buffer[i] = op.buffer[x];
+        x++;
+        
+    }
+    size = size + op.size;
+    return *this;
+}
+//------------------------------------------------------------------------------------------------------------
+Containers::String& Containers::String::operator=(String&& op)
+{
+    size = op.size;
+    buffer = op.buffer;
+    
+    op.size = 0;
+    op.buffer = nullptr;
+    return *this;
+}
+//------------------------------------------------------------------------------------------------------------
+bool operator==(const String& a,const String& b)
+{
+    if(a.size != b.size)
+        return false;
+    
+    for(int i = 0; i < a.size; i++)
+        if(a.buffer[i] != b.buffer[i])
+            return false;
+    return true;
+}
+//------------------------------------------------------------------------------------------------------------
+bool operator<=(const String& a,const String& b)
+{
+    if(a.size > b.size)
+        return false;
+    return true;
+}
+//------------------------------------------------------------------------------------------------------------
+bool operator>=(const String& a,const String& b)
+{
+    if(a < b)
+        return false;
+    return true;
+}
+//------------------------------------------------------------------------------------------------------------
+bool operator>(const String& a,const String& b)
+{
+    if (a.size > b.size)
+        return true;
+    return false;
+}
+//------------------------------------------------------------------------------------------------------------
+bool operator<(const String& a,const String& b)
+{
+    if(a.size < b.size)
+        return true;
+    return false;
+}
+//------------------------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& a,const String& b)
+{
+    for(int i = 0;i < b.size;i++)
+        a << b.buffer[i];
+    return a;
+}
+//------------------------------------------------------------------------------------------------------------
+char*& Containers::String::returnC()
+{
+    return buffer;
+}
+//------------------------------------------------------------------------------------------------------------
 //**************************************************************************************
 //Max-Heap
 //**************************************************************************************
