@@ -15,5 +15,7 @@ auto in = Vector<int>();
 in.push_back(12);
 string we = "oscar";
 
+Containers::BinarySearchTree<int> er;
+er.insert(12);
 
 }
