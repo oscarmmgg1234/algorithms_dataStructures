@@ -88,11 +88,41 @@ typedef Containers::queue<int16_t> int16_queue;
 typedef Containers::queue<int16_t*> int16ptr_queue;
 typedef Containers::queue<std::string> stdstring_queue;
 typedef Containers::queue<std::string*> stdstringptr_queue;
-typedef Containers::LinkedList<Containers::String> string_queue;
-typedef Containers::LinkedList<Containers::String*> stringptr_queue;
+typedef Containers::queue<Containers::String> string_queue;
+typedef Containers::queue<Containers::String*> stringptr_queue;
 //string
 typedef Containers::String string;
+//stack
+typedef Containers::Stack<int> int_stack;
+typedef Containers::Stack<int*> intptr_Stack;
+typedef Containers::Stack<char> char_Stack;
+typedef Containers::Stack<char*> charptr_Stack;
+typedef Containers::Stack<float> float_Stack;
+typedef Containers::Stack<float*> floatptr_Stack;
+typedef Containers::Stack<double> double_Stack;
+typedef Containers::Stack<double*> doubleptr_Stack;
+typedef Containers::Stack<long> long_Stack;
+typedef Containers::Stack<long*> longptr_Stack;
+typedef Containers::Stack<unsigned> unsigned_Stack;
+typedef Containers::Stack<unsigned*> unsignedptr_Stack;
+typedef Containers::Stack<short> short_Stack;
+typedef Containers::Stack<short*> shortptr_Stack;
+typedef Containers::Stack<long long int> longLong_Stack;
+typedef Containers::Stack<long long int *> longLongptr_Stack;
+typedef Containers::Stack<int32_t> int32_Stack;
+typedef Containers::Stack<int32_t*> int32ptr_Stack;
+typedef Containers::Stack<int64_t> int64_Stack;
+typedef Containers::Stack<int64_t*> int64ptr_Stack; 
+typedef Containers::Stack<int8_t> int8_Stack;
+typedef Containers::Stack<int8_t*> int8ptr_Stack;
+typedef Containers::Stack<int16_t> int16_Stack;
+typedef Containers::Stack<int16_t*> int16ptr_Stack;
+typedef Containers::Stack<std::string> stdstring_Stack;
+typedef Containers::Stack<std::string*> stdstringptr_Stack;
+typedef Containers::Stack<Containers::String> string_Stack;
+typedef Containers::Stack<Containers::String*> stringptr_Stack;
 
+//auto instances
 template <typename T>
 Containers::LinkedList<T> List() noexcept {
     Containers::LinkedList<T> instance;
@@ -132,6 +162,12 @@ typename Containers::queue<T>::iterator Queue(char a) noexcept {
     return instance;
     }
 } 
+
+template <typename T, class container = Containers::Vector<T>>
+typename Containers::Stack<T> Stack(){
+    typename Containers::Stack<T> instance;
+    return instance;
+}
 
 
 

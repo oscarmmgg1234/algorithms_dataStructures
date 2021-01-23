@@ -5,6 +5,7 @@
 struct lamp {};;
 int main(){
 int_list a;
+a.push_back(std::move(12));
 int_queue b;
 int_vector c;
 //for custom containers use 
@@ -15,7 +16,9 @@ auto in = Vector<int>();
 in.push_back(12);
 string we = "oscar";
 
+
 Containers::BinarySearchTree<int> er;
 er.insert(12);
+auto s = Stack<int,int_list>();
 
 }

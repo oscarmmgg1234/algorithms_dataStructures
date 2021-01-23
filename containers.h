@@ -981,9 +981,35 @@ return new BinaryNode{t->element,clone(t->left), clone(t->right)};
 template <typename T, class container = Vector<T>>
 class Stack{
 protected:
-Vector<T> temp;
+container temp;
 
+public: 
+Stack(){};//constructor
+Stack(T& val) : temp{val}{}
+Stack(const Stack<T>&);
+Stack(Stack<T>&&);
+
+
+Stack& operator=(const Stack<T>&);
+
+bool empty(){return temp.empty();}
+
+void push(const T& val){temp.push_back(val);}
+void push(T&& val){temp.push_back(std::move(val));}
+
+T& top(){return temp.back();}
+
+void evaluatePostFix(Containers::String&);
+void evaluatePreFix(Containers::String&);
+
+void pop(){temp.pop_back();}
+ 
 };
+template <typename T,class container>
+Containers::Stack<T, container>::Stack(const Stack<T>& copy){
+    this->temp = copy.temp;
+}
+
 //**************************************************************************************
 //Trie
 //**************************************************************************************
