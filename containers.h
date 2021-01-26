@@ -840,11 +840,18 @@ void pop(){temp.pop_back();}
 //**************************************************************************************
 template <typename T>
 class HashTable {
+unsigned Bucket;
 Containers::LinkedList<T>* temp;
 public:
-HashTable(){}//dafault constructor
+HashTable() : Bucket{0} {}//dafault constructor
+HashTable(unsigned& bucketSize) : Bucket{bucketSize} {temp = new Containers::LinkedList<T>[bucketSize];}
+
+void insert(T& item);
+void erase(T& key);
     
-    
+inline int& hashFunction(T& key);
+
+void displayHash();
 };
 //**************************************************************************************
 //Graph
