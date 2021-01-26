@@ -861,7 +861,8 @@ void Containers::BinarySearchTree<Comparable>::inorder(BinaryNode * t) const
     if (t == nullptr)
 return;
 inorder(t->left);
-std::cout << t->element << " "; inorder(t->right);
+std::cout << t->element << " "; 
+inorder(t->right);
 }
 //------------------------------------------------------------------------------------------------------------
 template <class Comparable>
@@ -870,7 +871,8 @@ void Containers::BinarySearchTree<Comparable>::preorder(BinaryNode * t) const
     if (t == nullptr)
         return;
 
-std::cout << t->element << " "; preorder(t->left);
+std::cout << t->element << " "; 
+preorder(t->left);
 preorder(t->right); }
 //------------------------------------------------------------------------------------------------------------
 
@@ -986,9 +988,7 @@ container temp;
 public: 
 Stack(){};//constructor
 Stack(T& val) : temp{val}{}
-Stack(const Stack<T>&);
-Stack(Stack<T>&&);
-
+//We dont need big 6 because Stack already has them
 
 Stack& operator=(const Stack<T>&);
 
@@ -1005,11 +1005,6 @@ void evaluatePreFix(Containers::String&);
 void pop(){temp.pop_back();}
  
 };
-template <typename T,class container>
-Containers::Stack<T, container>::Stack(const Stack<T>& copy){
-    this->temp = copy.temp;
-}
-
 //**************************************************************************************
 //Trie
 //**************************************************************************************
