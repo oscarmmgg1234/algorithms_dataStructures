@@ -122,7 +122,7 @@ typedef Containers::Stack<std::string*> stdstringptr_Stack;
 typedef Containers::Stack<Containers::String> string_Stack;
 typedef Containers::Stack<Containers::String*> stringptr_Stack;
 //Hash Map
-typedef Containers::HashTable intHashM;
+typedef Containers::HashTable intHashMap;
 
 
 #endif

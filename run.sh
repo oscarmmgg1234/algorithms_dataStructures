@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-g++ -o main main.cpp
-./main
+g++ -std=c++11 main.cpp  
+./a.out
