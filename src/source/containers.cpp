@@ -699,3 +699,11 @@ typename Containers::BinarySearchTree<obj>::BinaryNode * Containers::BinarySearc
         return nullptr;
     else return new BinaryNode{t->element,clone(t->left), clone(t->right)};
 }
+//**************************************************************************************
+//Hash Map
+//**************************************************************************************
+int Containers::HashTable::hashFunction(int& key){
+ 
+return key % Bucket;
+
+}

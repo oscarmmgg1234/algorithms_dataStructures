@@ -326,18 +326,18 @@ void pop(){temp.pop_back();}
 //**************************************************************************************
 //Hash Table
 //**************************************************************************************
-template <typename T>
+
 class HashTable {
 unsigned Bucket;
-Containers::LinkedList<T>* temp;
+Containers::LinkedList<int>* temp;
 public:
 HashTable() : Bucket{0} {}//dafault constructor
-HashTable(unsigned& bucketSize) : Bucket{bucketSize} {temp = new Containers::LinkedList<T>[bucketSize];}
+HashTable(unsigned& bucketSize) : Bucket{bucketSize} {temp = new Containers::LinkedList<int>[bucketSize];}
 
-void insert(T& item);
-void erase(T& key);
+void insert(int& item);
+void erase(int& key);
     
-inline int& hashFunction(T& key);
+inline int hashFunction(int& key);
 
 void displayHash();
 };

@@ -22,5 +22,5 @@ Containers::BinarySearchTree<int> er;
 er.insert(12);
 auto s = Stack<int,int_list>();
 auto read = Stack<int>();
-
+auto map = intHashMap();
 }

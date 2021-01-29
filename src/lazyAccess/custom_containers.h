@@ -49,5 +49,10 @@ Containers::Stack<T> Stack(){
     return instance;
 }
 
+Containers::HashTable intHashMap(){
+    Containers::HashTable instance;
+    return instance;
+}
+
 
 #endif
