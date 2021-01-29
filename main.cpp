@@ -1,8 +1,9 @@
 #include <iostream> 
-#include "primitive_type_containers.h"
+#include "src/lazyAccess/primitive_type_containers.h"
+#include "src/lazyAccess/custom_containers.h"
 
 
-struct lamp {};;
+struct lamp {};
 int main(){
 int_list a;
 a.push_back(std::move(12));
@@ -20,5 +21,6 @@ string we = "oscar";
 Containers::BinarySearchTree<int> er;
 er.insert(12);
 auto s = Stack<int,int_list>();
+auto read = Stack<int>();
 
 }

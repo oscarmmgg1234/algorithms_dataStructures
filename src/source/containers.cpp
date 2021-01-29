@@ -1,142 +1,189 @@
-/* 
-Author: Oscar Maldonado
-Description: Create data structures using best
-pratices and best time complexity and eventually create a product ready dylib
-*/
-#ifndef CONTAINERS
-#define CONTAINERS 
-#include <ostream>
-namespace Containers {
+//this file will contain all ds and algo implementations
+#include "containers.h"
 
 //**************************************************************************************
 //**************************************************************************************
-//Data-Structures 
+//Data-Structures Implementation
 //**************************************************************************************
 //**************************************************************************************
     
 //**************************************************************************************
 //Linked List && Doubly Linked List
 //**************************************************************************************
-
 template <typename T>
-class LinkedList{
-    struct Node {
-        Node* prev;
-        Node* next;
-        T data;
+void Containers::LinkedList<T>::init(){
+    this->size = 0;
+    head = new Node();
+    tail = new Node();
+    tail->prev = head;
+    head->next = tail;
 
-        Node():next{nullptr},prev{nullptr}{} //TM => O(1)
-        Node(const T& val,Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{val} {} //TM => O(1)
-        Node(T&& val, Node* p = nullptr, Node* n = nullptr) : next{n}, prev{p}, data{std::move(val)}{} //TM => O(1)
-    }; 
-    unsigned int size;
+}
+//-----------------------------------------------------------------------
+template <typename T> //default constructor TM => O(1)
+Containers::LinkedList<T>::LinkedList(){ 
+    init();
+}
+//-----------------------------------------------------------------------
+template <typename T> // TM => O(n)
+Containers::LinkedList<T>::~LinkedList(){
+this->clear();
+delete head;
+delete tail;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(n)
+void Containers::LinkedList<T>::clear(){
+    while(!empty())
+    Containers::LinkedList<T>::pop_front();
+}
+//-----------------------------------------------------------------------
+template <typename T> 
+class Containers::LinkedList<T>::const_iterator {
+public: 
+const_iterator() : current{nullptr} {}
+const T& operator*() const { return Containers::LinkedList<T>::const_iterator::retrive(); } //TM => O(1)
+const_iterator & operator++();
+const_iterator operator++(int);
 
-    Node *head;
-    Node *tail;
-    
-    void init(); 
+const_iterator & operator--();
+const_iterator operator--(int);
 
-    public: 
-    class const_iterator;
-    class iterator;
+bool operator==(const const_iterator & rhs) const {return current == rhs.current; } //TM => O(1)
+bool operator!=(const const_iterator & rhs) const {return current != rhs.current; } //TM => O(1)
 
-    LinkedList(); //default constructor
-    LinkedList(const LinkedList& c); //copy constructor
-    LinkedList(LinkedList&& m) noexcept; //move constructor
-    ~LinkedList(); //destructor
-
-    LinkedList<T> & operator=(const LinkedList& c); //copy assignment operator
-    LinkedList<T> & operator=(LinkedList&& m) noexcept; //move assignment operator 
-
-    iterator begin() {return  head->next;} 
-    const_iterator begin() const {return head->next;}
-    iterator end() {return tail;}
-    const_iterator end() const {return tail;}
-
-    inline T & operator[](unsigned int index) const;
-    T& front(){ return *begin();}
-    const T& front() const {return *begin();}
-    T& back(){return *--end();}
-    const T& back() const {return *--back();}
-
-    inline int getSize() const {return size;}
-
-    //size_t getByteSize(const int index) const {return std::sizeof()}
-
-    inline bool empty() const {return size == 0;}
-    void clear();
-
-    void push_front(const T& val) {insert(begin(),val);}
-    void push_front(T&& val) noexcept {insert(begin(), val);}
-    void push_back(const T& val) {insert(end(),val);}
-    void push_back(T&& val) noexcept {insert(end(),val);}
-    
-
-    void pop_front() { erase(begin());}
-    void pop_back() { erase(end());}
-
-    iterator insert(iterator, const T&);
-    iterator insert(iterator, T&&);
-
-    iterator erase(iterator);
-    iterator erase(iterator, iterator);
-    
+protected: 
+Node* current;
+T& retrive()const{return current->data;} //TM => O(1)
+const_iterator(Node *p) : current{p} {} //TM => O(1)
+friend class Containers::LinkedList<T>;
 };
+//-----------------------------------------------------------------------
+
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::const_iterator & Containers::LinkedList<T>::const_iterator::operator++(){
+    current = current->next;
+    return *this; //returns reference to this object
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::const_iterator Containers::LinkedList<T>::const_iterator::operator++(int){
+    Containers::LinkedList<T>::const_iterator copy = *this;
+    ++(*this);
+    return copy;
+
+}
+//-----------------------------------------------------------------------
+template <typename T> 
+class Containers::LinkedList<T>::iterator : public Containers::LinkedList<T>::const_iterator{
+public: 
+    iterator() {}
+    T& operator*() {return const_iterator::retrive();} //TM => O(1)
+    const T& operator*() const {return Containers::LinkedList<T>::const_iterator::operator*(); } //TM => O(1)
+
+    iterator & operator++();
+    iterator operator++(int);
+    iterator& operator--();
+    iterator operator--(int);
+
+    protected: 
+    iterator(Node* n): Containers::LinkedList<T>::const_iterator{n} {} //TM => O(1)
+    friend class Containers::LinkedList<T>;
+
+};
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::iterator::operator--(int){
+Containers::LinkedList<T>::iterator copy = *this;
+--(*this);
+return copy;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::iterator& Containers::LinkedList<T>::iterator::operator--(){
+this->current = this->current->prev;
+return *this;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::iterator& Containers::LinkedList<T>::iterator::operator++(){
+this->current = this->current->next;
+return *this;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::iterator::operator++(int){
+Containers::LinkedList<T>::iterator copy = *this;
+++(*this);
+return copy;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(n)
+Containers::LinkedList<T>::LinkedList(const Containers::LinkedList<T> & rhs)
+{
+    init();
+    for(auto& val : rhs)
+        push_back(val);
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && rhs) noexcept
+{
+    size,rhs.size;
+    head, rhs.head;
+    tail, rhs.tail;
+    return *this;
+}
+//-----------------------------------------------------------------------
+template <typename T>//TM => O(1)
+typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(iterator itr, const T& val)
+{
+    Node* p = itr.current;
+    Node* newNode = new Node(val, p->prev, p);
+    size++;
+    return p->prev = p->prev->next = newNode;
+}
+//-----------------------------------------------------------------------
+template <typename T>//TM => O(1)
+typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::insert(iterator itr, T&& val){
+    Node* p = itr.current;
+    Node* newNode = new Node(val,p->prev,p);
+    size++;
+    return p->prev = p->prev->next = newNode;
+}
+//-----------------------------------------------------------------------
+template <typename T>//TM => O(1)
+Containers::LinkedList<T>::LinkedList(LinkedList && rhs) noexcept
+{
+    size = rhs.size;
+    head = rhs.head;
+    tail = rhs.tail;
+    rhs.size = 0;
+    rhs.head = nullptr;
+    rhs.tail = nullptr;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(n)
+typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::erase(LinkedList<T>::iterator from, LinkedList<T>::iterator to){
+    for(LinkedList<T>::iterator itr = from; itr != to;)
+        itr = LinkedList<T>::erase(itr);
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+typename Containers::LinkedList<T>::iterator Containers::LinkedList<T>::erase(LinkedList<T>::iterator itr){
+    Node* p = itr.current;
+    LinkedList<T>::iterator retVal{p->next};
+    p->prev->next = p->next;
+    p->prev->prev = p->prev;
+    delete p;
+    size--;
+    return retVal;
+}
+
 //**************************************************************************************
 //Custom Vector
 //**************************************************************************************
 
-template <class T>
-class Vector
-{
-public:
-
-    
-    class iterator;
-    Vector(unsigned int size = 0, const T & initial = T()); // default constructor
-    Vector(const Vector<T> & v);                            // copy constructor
-    Vector(Vector<T> && v);                                // move constructor
-    ~Vector();                                              // destructor
-    Vector<T> & operator=(const Vector<T> & v);             // copy assignment
-    Vector<T> & operator=(Vector<T>&& v) noexcept;                  // move assignment
-
-    unsigned int capacity() const;
-    inline unsigned int size() const;
-    inline bool empty() const;
-
-    iterator begin(){return iterator(buffer);}
-    iterator end(){return buffer + my_size;}
-    
-    inline T & front() const;                           // return reference to first element
-    inline T & back() const;       
-    void insert_at(const unsigned index,const T& value);
-    void insert_at(const unsigned index, T&& value);
-    void insert_at(iterator& itr);
-    void push_back(const T & value);
-    void push_back(T && value);
-    void push_back(iterator itr);
-    void push_front(const T& value);
-    void push_front(T&& value);
-    void push_front(iterator itr);
-    void pop_back();
-    void pop_front();
-    void pop_at(unsigned int index);
-    void erase(iterator& itr);
-    
-    void reserve(unsigned int capacity);   // adjust capacity
-    void resize(unsigned int size);       // adjust size
-
-    T & operator[](unsigned int index);
-
-    bool operator==(const Vector<T> & temp){return buffer == temp.buffer;}
-    bool operator!=(const Vector<T> & temp){return buffer != temp.buffer;}
-   
-private:
-    unsigned int my_size;
-    unsigned int my_capacity;
-    T * buffer;
-};
-//-----------------------------------------------------------------------
 template <typename T>
 class Containers::Vector<T>::iterator{
 protected: 
@@ -396,61 +443,8 @@ void Containers::Vector<T>::pop_at(unsigned int index){
     }else return;
 }
 //**************************************************************************************
-//Queue
-//**************************************************************************************
-
-template <typename T, typename container = Vector<T>>
-class queue  {
-    public:
-    queue(){}//default constructor
-    queue(const queue & q){temp = q.temp;} //TM => O(1)//copy constructor
-    
-    queue & operator=(const queue& p){temp = p.temp; return *this;}//TM => O(1)
-    queue & operator=(queue&& p) noexcept {temp = p;p.temp.clear();}//TM => O(1)
-
-    void enqueue(T& val){temp.push_back(val);}//TM => O(n)
-    void enqueue(T&& val) noexcept {temp.push_back(val);}//TM => O(n)
-    void dequeue(){temp.pop_front();}//TM => O(n)
-
-    inline T& getFirst() const noexcept {return temp.front();}//TM => O(1)
-    
-    private: 
-    container temp;
-};
-//**************************************************************************************
 //String
-//******************************e********************************************************
-class String {
-    int size;
-    char* buffer;
-public:
-    
-    String();
-    String(const String& op);//copy constructor
-    String(String && op);//move constructors
-    String(const char* op);
-    String(char op);
-    ~String();//destructor
-    
-    char*& returnC();
-    int length();//return length of buffer
-    char& operator[](const int a);//returns char at specified index in the array
-    String& operator=(const String& op);//String a = "hello"
-    String& operator+=(const String & op);
-    String& operator=(String && op) ;
-    
-    
-    friend bool operator==(const String& a,const String& b);
-    friend bool operator<=(const String& a,const String& b);
-    friend bool operator>= (const String& a,const String& b);
-    friend bool operator>(const String& a,const String& b);
-    friend bool operator<(const String& a,const String& b);
-    
-    friend std::ostream& operator<<(std::ostream& a, const String& b);
-    
-    
-};
-//------------------------------------------------------------------------------------------------------------
+//**************************************************************************************
 Containers::String::String()
 {
     size = 0;
@@ -541,118 +535,20 @@ Containers::String& Containers::String::operator=(String&& op)
     return *this;
 }
 //------------------------------------------------------------------------------------------------------------
-bool operator==(const String& a,const String& b)
-{
-    if(a.size != b.size)
-        return false;
-    
-    for(int i = 0; i < a.size; i++)
-        if(a.buffer[i] != b.buffer[i])
-            return false;
-    return true;
-}
-//------------------------------------------------------------------------------------------------------------
-bool operator<=(const String& a,const String& b)
-{
-    if(a.size > b.size)
-        return false;
-    return true;
-}
-//------------------------------------------------------------------------------------------------------------
-bool operator>=(const String& a,const String& b)
-{
-    if(a < b)
-        return false;
-    return true;
-}
-//------------------------------------------------------------------------------------------------------------
-bool operator>(const String& a,const String& b)
-{
-    if (a.size > b.size)
-        return true;
-    return false;
-}
-//------------------------------------------------------------------------------------------------------------
-bool operator<(const String& a,const String& b)
-{
-    if(a.size < b.size)
-        return true;
-    return false;
-}
-//------------------------------------------------------------------------------------------------------------
-std::ostream& operator<<(std::ostream& a,const String& b)
-{
-    for(int i = 0;i < b.size;i++)
-        a << b.buffer[i];
-    return a;
-}
-//------------------------------------------------------------------------------------------------------------
 char*& Containers::String::returnC()
 {
     return buffer;
 }
-//------------------------------------------------------------------------------------------------------------
-
-//**************************************************************************************
-//Max-Heap
-//**************************************************************************************
-//**************************************************************************************
-//Min-Heap
-//**************************************************************************************
 //**************************************************************************************
 //BST
 //**************************************************************************************
-template <typename Comparable>
-class BinarySearchTree
-{
-public:
-    BinarySearchTree(): root{nullptr} { }
-BinarySearchTree(const BinarySearchTree & rhs) { root = clone(rhs.root); }
-BinarySearchTree(BinarySearchTree && rhs); ~BinarySearchTree() { makeEmpty(root); }
-BinarySearchTree & operator=(const BinarySearchTree & rhs); BinarySearchTree & operator=(BinarySearchTree && rhs);
-    const Comparable & findMin() const;
-    const Comparable & findMax() const;
-    bool contains(const Comparable & x) const;
-    bool isEmpty() const { return root == nullptr; }
-    void printTree(std::ostream & out = std::cout) const;
-    void makeEmpty() { makeEmpty(root); }
-    void insert(const Comparable & x) { insert(x, root); }
-    void insert(Comparable && x) { insert(std::move(x), root); }
-    void remove(const Comparable & x) { remove(x, root); }
-    void inorder() const { inorder(root); }
-    void preorder() const {preorder(root);}
-    void postorder() const {postorder(root);}
-private:
-    struct BinaryNode
-    {
-        Comparable element;
-        BinaryNode * left;
-        BinaryNode * right;
-        BinaryNode(const Comparable & theElement, BinaryNode * lt,BinaryNode * rt): element{theElement}, left{lt}, right{rt} { }
-        BinaryNode(Comparable && theElement, BinaryNode * lt,BinaryNode * rt): element{std::move(theElement)}, left{lt}, right{rt}{}
-};
-    BinaryNode * root;
-    void insert(const Comparable & x, BinaryNode * & t);
-    void insert(Comparable && x, BinaryNode * & t);
-    void remove(const Comparable & x, BinaryNode * & t);
-    BinaryNode * findMin(BinaryNode * t) const;
-    BinaryNode * findMax(BinaryNode * t) const;
-    bool contains(const Comparable & x, BinaryNode * t) const;
-    void makeEmpty(BinaryNode * & t);
-    void printTree(std::ostream & out, BinaryNode * t, std::string indent, const std::string & tag) const; // added indent and tag
-    BinaryNode * clone(BinaryNode * t) const;
-    void inorder(BinaryNode * t) const;
-    void postorder(BinaryNode* t) const;
-    void preorder(BinaryNode* t) const;
-};
-//-------------------------------------------------------------------- --------------------------------------------------
 template <typename Comparable> Containers::BinarySearchTree<Comparable>::BinarySearchTree(BinarySearchTree && rhs)
 {
 root = rhs.root; // root = move(rhs.root); is not necessary since
 rhs.root = nullptr; }
 //-------------------------------------------------------------------- --------------------------------------------------
 template <typename Comparable>
-Containers::BinarySearchTree<Comparable> & BinarySearchTree<Comparable>::operator=(const BinarySearchTree & rhs) {
+Containers::BinarySearchTree<Comparable> & Containers::BinarySearchTree<Comparable>::operator=(const BinarySearchTree & rhs) {
     BinarySearchTree copy = rhs; // uses copy constructor
     std::swap(*this, copy);
  
@@ -660,7 +556,7 @@ Containers::BinarySearchTree<Comparable> & BinarySearchTree<Comparable>::operato
 }
 //-------------------------------------------------------------------- --------------------------------------------------
 template <typename Comparable>
-Containers::BinarySearchTree<Comparable> & BinarySearchTree<Comparable>::operator=(BinarySearchTree && rhs)
+Containers::BinarySearchTree<Comparable> & Containers::BinarySearchTree<Comparable>::operator=(BinarySearchTree && rhs)
 {
 std::swap(root, rhs.root); return *this;
 }
@@ -753,7 +649,7 @@ else
 ; }
 //-------------------------------------------------------------------- --------------------------------------------------
 template <typename Comparable>
-typename Containers::BinarySearchTree<Comparable>::BinaryNode* findMin( typename BinarySearchTree<Comparable>::BinaryNode* t)
+typename Containers::BinarySearchTree<Comparable>::BinaryNode* findMin( typename Containers::BinarySearchTree<Comparable>::BinaryNode* t)
 {
     if(t == nullptr)
 return nullptr; if(t->left == nullptr)
@@ -762,7 +658,7 @@ return findMin(t->left);
 }
 //-------------------------------------------------------------------- --------------------------------------------------
 template <typename Comparable>
-typename Containers::BinarySearchTree<Comparable>::BinaryNode* findMax( typename BinarySearchTree<Comparable>::BinaryNode* t)
+typename Containers::BinarySearchTree<Comparable>::BinaryNode* findMax( typename Containers::BinarySearchTree<Comparable>::BinaryNode* t)
 {
     if(t == nullptr)
 return nullptr; if(t->right == nullptr)
@@ -801,71 +697,5 @@ typename Containers::BinarySearchTree<obj>::BinaryNode * Containers::BinarySearc
 {
     if(t == nullptr)
         return nullptr;
-    else
-return new BinaryNode{t->element,clone(t->left), clone(t->right)};
+    else return new BinaryNode{t->element,clone(t->left), clone(t->right)};
 }
-//**************************************************************************************
-//Stack
-//**************************************************************************************
-template <typename T, class container = Vector<T>>
-class Stack{
-protected:
-container temp;
-
-public: 
-Stack(){};//constructor
-Stack(T& val) : temp{val}{}
-//We dont need big 6 because Stack already has them
-
-Stack& operator=(const Stack<T>&);
-
-bool empty(){return temp.empty();}
-
-void push(const T& val){temp.push_back(val);}
-void push(T&& val){temp.push_back(std::move(val));}
-
-T& top(){return temp.back();}
-
-void evaluatePostFix(Containers::String&);
-void evaluatePreFix(Containers::String&);
-
-void pop(){temp.pop_back();}
- 
-};
-//**************************************************************************************
-//Trie
-//**************************************************************************************
-//**************************************************************************************
-//Hash Table
-//**************************************************************************************
-template <typename T>
-class HashTable {
-unsigned Bucket;
-Containers::LinkedList<T>* temp;
-public:
-HashTable() : Bucket{0} {}//dafault constructor
-HashTable(unsigned& bucketSize) : Bucket{bucketSize} {temp = new Containers::LinkedList<T>[bucketSize];}
-
-void insert(T& item);
-void erase(T& key);
-    
-inline int& hashFunction(T& key);
-
-void displayHash();
-};
-//**************************************************************************************
-//Graph
-//**************************************************************************************
-//**************************************************************************************
-//Binary Tree
-//**************************************************************************************
-    
-//**************************************************************************************
-//**************************************************************************************
-//Algorithms 
-//**************************************************************************************
-//**************************************************************************************
-    
-};//end of namespace
-
-#endif

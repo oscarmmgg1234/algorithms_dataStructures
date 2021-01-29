@@ -1,6 +1,6 @@
 #ifndef PRIMITIVE_CONTAINERS
 #define PRIMITIVE_CONTAINERS
-#include "containers.h"
+#include "../source/containers.h"
 #include <string>
 #include <cstdint>
 //linked queue
@@ -121,54 +121,6 @@ typedef Containers::Stack<std::string> stdstring_Stack;
 typedef Containers::Stack<std::string*> stdstringptr_Stack;
 typedef Containers::Stack<Containers::String> string_Stack;
 typedef Containers::Stack<Containers::String*> stringptr_Stack;
-
-//auto instances
-template <typename T>
-Containers::LinkedList<T> List() noexcept {
-    Containers::LinkedList<T> instance;
-    return instance;
-} 
-
-template <typename T>
-typename Containers::LinkedList<T>::iterator List(char a) noexcept {
-    if(a == 'i'){
-    typename Containers::LinkedList<T>::iterator instance;
-    return instance;
-    }
-} 
-template <typename T>
-Containers::Vector<T> Vector() noexcept {
-    Containers::Vector<T> instance;
-    return instance;
-} 
-
-template <typename T>
-typename Containers::Vector<T>::iterator Vector(char a) noexcept {
-    if(a == 'i'){
-    typename Containers::Vector<T>::iterator instance;
-    return instance;
-    }
-} 
-template <typename T>
-Containers::queue<T> Queue() noexcept {
-    Containers::queue<T> instance;
-    return instance;
-} 
-
-template <typename T>
-typename Containers::queue<T>::iterator Queue(char a) noexcept {
-    if(a == 'i'){
-    typename Containers::queue<T>::iterator instance;
-    return instance;
-    }
-} 
-
-template <typename T, class container = Containers::Vector<T>>
-typename Containers::Stack<T> Stack(){
-    typename Containers::Stack<T> instance;
-    return instance;
-}
-
 
 
 #endif
