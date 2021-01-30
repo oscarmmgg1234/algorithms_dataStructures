@@ -6,6 +6,7 @@ pratices and best time complexity and eventually create a product ready dylib
 #ifndef CONTAINERS
 #define CONTAINERS 
 #include <ostream>
+
 namespace Containers {
 
 //**************************************************************************************
@@ -326,20 +327,35 @@ void pop(){temp.pop_back();}
 //**************************************************************************************
 //Hash Table
 //**************************************************************************************
+class employee{
+String name;
+float earnings;
+public: 
+employee(String named, float ernings) : name{named}, earnings{ernings} {id = rand() % 50;}
+String getName() const noexcept {return name;}
+float getEarnings() const noexcept {return earnings;}
+int id;
+};
 
+template <typename T>
 class HashTable {
 unsigned Bucket;
-Containers::LinkedList<int>* temp;
+Containers::LinkedList<T>* temp;
+unsigned size;
+inline int hashFunction(T& key);
 public:
-HashTable() : Bucket{0} {}//dafault constructor
-HashTable(unsigned& bucketSize) : Bucket{bucketSize} {temp = new Containers::LinkedList<int>[bucketSize];}
+HashTable() : Bucket{0}, size{0} {}//dafault constructor
+HashTable(unsigned&& bucketSize) : Bucket{bucketSize}, size{0} {temp = new Containers::LinkedList<T>[bucketSize];}
+HashTable(unsigned& bucketSize) : Bucket{bucketSize}, size{0} {temp = new Containers::LinkedList<T>[bucketSize];}
 
-void insert(int& item);
+void insert(T& item);
+void insert(T&& item);
 void erase(int& key);
-    
-inline int hashFunction(int& key);
+void erase(int&& key);
 
-void displayHash();
+int getBucketSize() const noexcept {return Bucket;}
+int getSize() const noexcept {return size;}
+
 };
 //**************************************************************************************
 //Graph

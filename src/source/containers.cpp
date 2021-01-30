@@ -129,9 +129,18 @@ Containers::LinkedList<T>::LinkedList(const Containers::LinkedList<T> & rhs)
 template <typename T> //TM => O(1)
 Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(LinkedList && rhs) noexcept
 {
-    size,rhs.size;
-    head, rhs.head;
-    tail, rhs.tail;
+    std::swap(size,rhs.size);
+    std::swap(head, rhs.head);
+    std::swap(tail, rhs.tail);
+    return *this;
+}
+//-----------------------------------------------------------------------
+template <typename T> //TM => O(1)
+Containers::LinkedList<T> & Containers::LinkedList<T>::operator=(const LinkedList & rhs)
+{
+    size = rhs.size;
+    head = rhs.head;
+    tail = rhs.tail;
     return *this;
 }
 //-----------------------------------------------------------------------
@@ -702,8 +711,24 @@ typename Containers::BinarySearchTree<obj>::BinaryNode * Containers::BinarySearc
 //**************************************************************************************
 //Hash Map
 //**************************************************************************************
-int Containers::HashTable::hashFunction(int& key){
- 
-return key % Bucket;
-
+template <typename T>
+int Containers::HashTable<T>::hashFunction(T& copy){return  copy.id % Bucket;}
+//-------------------------------------------------------------------- --------------------------------------------------
+template <typename T>
+void Containers::HashTable<T>::insert(T& item){
+    if(Bucket == 0){
+        temp = new Containers::LinkedList<T>[10];//default
+        Bucket = 10;
+    }
+    if(size + 1 > Bucket){
+        Containers::LinkedList<T>* trueTemp = temp;
+        delete [] temp;
+        temp = new Containers::LinkedList<T>[2*Bucket];
+        for(int i = 0; i < size;i++)
+            temp[i] = trueTemp[i];
+        Bucket = 2*Bucket;
+    }
+    int index = hashFunction(item);
+    temp[index].push_back(item); 
+    size++;
 }
