@@ -711,18 +711,18 @@ typename Containers::BinarySearchTree<obj>::BinaryNode * Containers::BinarySearc
 //**************************************************************************************
 //Hash Map
 //**************************************************************************************
-template <typename T>
-int Containers::HashTable<T>::hashFunction(T& copy){return  copy.id % Bucket;}
+template <typename T,class container>
+int Containers::HashTable<T,container>::hashFunction(int item){return item % Bucket;}
 //-------------------------------------------------------------------- --------------------------------------------------
-template <typename T>
-void Containers::HashTable<T>::insert(T& item){
+template <typename T, class container>
+void Containers::HashTable<T,container>::insert(int&& item){
     if(Bucket == 0){
         temp = new Containers::LinkedList<T>[10];//default
         Bucket = 10;
     }
     if(size + 1 > Bucket){
         Containers::LinkedList<T>* trueTemp = temp;
-        delete [] temp;
+        delete [] temp; 
         temp = new Containers::LinkedList<T>[2*Bucket];
         for(int i = 0; i < size;i++)
             temp[i] = trueTemp[i];
@@ -731,4 +731,9 @@ void Containers::HashTable<T>::insert(T& item){
     int index = hashFunction(item);
     temp[index].push_back(item); 
     size++;
+}
+//-------------------------------------------------------------------- --------------------------------------------------
+template <typename T, class container>
+void Containers::HashTable<T,container>::erase(int&& key){
+    temp[key].clear();
 }

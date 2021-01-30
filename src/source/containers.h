@@ -142,7 +142,7 @@ private:
 //Queue
 //**************************************************************************************
 
-template <typename T, typename container = Vector<T>>
+template <typename T>
 class queue  {
     public:
     queue(){}//default constructor
@@ -158,7 +158,7 @@ class queue  {
     inline T& getFirst() const noexcept {return temp.front();}//TM => O(1)
     
     private: 
-    container temp;
+    Vector<T> temp;
 };
 //**************************************************************************************
 //String
@@ -327,25 +327,29 @@ void pop(){temp.pop_back();}
 //**************************************************************************************
 //Hash Table
 //**************************************************************************************
-template <typename T>
+template <typename T, class container = Containers::LinkedList<T>>
 class HashTable {
 unsigned Bucket;
-Containers::LinkedList<T>* temp;
+container* temp;
 unsigned size;
-inline int hashFunction(T& key);
+
 public:
 HashTable() : Bucket{0}, size{0} {}//dafault constructor
 HashTable(unsigned&& bucketSize) : Bucket{bucketSize}, size{0} {temp = new Containers::LinkedList<T>[bucketSize];}
 HashTable(unsigned& bucketSize) : Bucket{bucketSize}, size{0} {temp = new Containers::LinkedList<T>[bucketSize];}
 
-void insert(T& item);
-void insert(T&& item);
+void insert(int& item);
+void insert(int&& item);
 void erase(int& key);
 void erase(int&& key);
 
+inline int hashFunction(int key);
 int getBucketSize() const noexcept {return Bucket;}
 int getSize() const noexcept {return size;}
 
+void displayFuntion(int&& item){
+    std::cout << hashFunction(item);
+}
 };
 //**************************************************************************************
 //Graph
