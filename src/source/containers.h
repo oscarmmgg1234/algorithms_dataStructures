@@ -327,16 +327,6 @@ void pop(){temp.pop_back();}
 //**************************************************************************************
 //Hash Table
 //**************************************************************************************
-class employee{
-String name;
-float earnings;
-public: 
-employee(String named, float ernings) : name{named}, earnings{ernings} {id = rand() % 50;}
-String getName() const noexcept {return name;}
-float getEarnings() const noexcept {return earnings;}
-int id;
-};
-
 template <typename T>
 class HashTable {
 unsigned Bucket;
